@@ -33,4 +33,34 @@ To run the code locally follow the instructions listed below.
     ```
 
 
-8. 
+8. Identify which file you would like to transcribe
+
+    ```
+    // Create readStream from file
+    const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg');
+    ```
+
+9. Identify the name of the transcribed text file
+
+    ```
+    // Create a writeStream to transcribe text to a file
+    const writableStream = fs.createWriteStream('<your-file-to-write-to.txt>');
+    ```
+
+10. Run the program
+
+    ```
+    node speechTotext.js
+    ```
+
+11. Check out your results
+
+    ```
+    Speaker - 0: hello
+
+    Speaker - 1: hi there
+
+    Speaker - 0: glad you could make it 
+
+    Speaker - 1: me too
+    ```
