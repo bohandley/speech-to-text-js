@@ -25,10 +25,10 @@ const params = {
 };
 
 // Create readStream from file
-const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg');
+const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg>');
 
 // Create stream from URL
-// var file = request('http://traffic.libsyn.com/investorempowermentradio/IES46-Tim_Jastrab.mp3')
+// var file = request('http://your-favorite-podcast.com');
 
 // Create recognizeStream with params
 const recognizeStream = speechToText.createRecognizeStream(params);
