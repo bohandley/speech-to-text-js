@@ -41,7 +41,7 @@ audioStream
 	.pipe(recognizeStream);
 
 // Listen for the 'data' event from the recognizeStream
-recognizeStream.on('data', function(chunk){
+recognizeStream.on('data', (chunk)=>{
 	// Display information about the data returned from the recognizeStream 
 	console.log('Chunk is a ' + typeof(chunk));
 	// Print the JSON to the console
@@ -55,12 +55,12 @@ recognizeStream.on('data', function(chunk){
 });
 
 // Listen for the 'close' event on the recognizeStream
-recognizeStream.on('close', function(event){
+recognizeStream.on('close', (event)=>{
 	onEvent('Close: ', event);
 });
 
 // Listen for the 'error' event
-recognizeStream.on('error', function(event){
+recognizeStream.on('error', (event)=>{
 	onEvent('Error: ', event);
 });
 
