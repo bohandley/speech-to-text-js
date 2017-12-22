@@ -1,0 +1,27 @@
+{
+  "name": "speech-to-text",
+  "version": "1.0.0",
+  "description": "speech-to-text using watson and node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bohandley/speech-to-text-js.git"
+  },
+  "keywords": [
+    "speech",
+    "text",
+    "node",
+    "watson",
+    "stream",
+    "transcribe"
+  ],
+  "author": "Brendan O'Handley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bohandley/speech-to-text-js/issues"
+  },
+  "homepage": "https://github.com/bohandley/speech-to-text-js#readme"
+}
