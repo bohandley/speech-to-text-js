@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/bohandley/speech-to-text-js/issues"
   },
-  "homepage": "https://github.com/bohandley/speech-to-text-js#readme"
+  "homepage": "https://github.com/bohandley/speech-to-text-js#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "watson-developer-cloud": "^3.0.3"
+  }
 }
