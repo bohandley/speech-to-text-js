@@ -9,43 +9,49 @@ const path = require('path');
  * @param {Function} done 
  */
  // Edited by BJO: 
-const filewalker = function(dir, done) {
-    let results = [];
+module.exports = {
 
-    fs.readdir(dir, function(err, list) {
-        if (err) return done(err);
-
-        let pending = list.length;
-
-        if (!pending) return done(null, results);
-
-        list.forEach(function(file){
-            // Uncomment the line below if you want the full path
-            // file = path.resolve(dir, file);
-
-            fs.stat(file, function(err, stat){
-                // If directory, execute a recursive call
-                if (stat && stat.isDirectory()) {
-                    // Add directory to array [comment if you need to remove the directories from the array]
-                    results.push(file);
-
-                    filewalker(file, function(err, res){
-                        results = results.concat(res);
+    filewalker: function (dir, done) {
+        
+        let results = [];
+    
+        fs.readdir(dir, function(err, list) {
+            if (err) return done(err);
+    
+            let pending = list.length;
+    
+            if (!pending) return done(null, results);
+    
+            list.forEach(function(file){
+                // Uncomment the line below if you want the full path
+                // file = path.resolve(dir, file);
+    
+                fs.stat(file, function(err, stat){
+                    // If directory, execute a recursive call
+                    if (stat && stat.isDirectory()) {
+                        // Add directory to array [comment if you need to remove the directories from the array]
+                        results.push(file);
+    
+                        filewalker(file, function(err, res){
+                            results = results.concat(res);
+                            if (!--pending) done(null, results);
+                        });
+                    } else {
+                        // only store ogg files and ignore .DS_Store
+                        if ( file.includes("ogg")){
+                          results.push(file);
+                        }
+                        // log each file to the console
+                        console.log(file);
+                        
                         if (!--pending) done(null, results);
-                    });
-                } else {
-                    // only store ogg files and ignore .DS_Store
-                    if ( file.includes("ogg")){
-                      results.push(file);
                     }
-                    // log each file to the console
-                    console.log(file);
-                    
-                    if (!--pending) done(null, results);
-                }
+                });
             });
         });
-    });
-};
+    };
 
-module.exports = filewalker;
+
+
+}
+
