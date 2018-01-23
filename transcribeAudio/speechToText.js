@@ -16,6 +16,8 @@ const speechToText = new SpeechToTextV1 ({
 // By adding this, the recognizeStream returns JSON
 const params = {
 	model: 'en-US_BroadbandModel',
+	acoustic_customization_id: process.env.ACOUSTIC_CUSTOMIZATION_ID,
+	customization_id: process.env.LANGUAGE_CUSTOMIZATION_ID, 
 	content_type: 'audio/ogg',
 	timestamps: true,
 	smart_formatting: true,
@@ -25,7 +27,7 @@ const params = {
 };
 
 // Create readStream from file
-const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg>');
+const audioStream = fs.createReadStream('./IES46-Tim_Jastrab.ogg');
 
 // Create stream from URL
 // var file = request('http://your-favorite-podcast.com');
@@ -34,7 +36,7 @@ const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg>
 const recognizeStream = speechToText.createRecognizeStream(params);
 
 // Create a writeStream to transcribe text to a file
-const writableStream = fs.createWriteStream('<your-file-to-write-to.txt>');
+const writableStream = fs.createWriteStream('IES46TimJastrab.txt');
 
 // Pipe the readStream to the recognizeStream
 audioStream

@@ -1,7 +1,7 @@
 function createSpeakerLabelHash(output){
 	let hash = {};
 	output.speaker_labels.map(function(speaker_label){
-		if ( !hash[speaker_label.speaker] && speaker_label.confidence > 0.3 ){ 
+		if ( !hash[speaker_label.speaker] && speaker_label.confidence > 0.35) { 
 			hash[speaker_label.speaker]=[speaker_label.from];
 		} else if ( hash[speaker_label.speaker] ) {
 			hash[speaker_label.speaker].push(speaker_label.from);
@@ -27,12 +27,24 @@ function joinSpeakerLabelsWithTimestamps(array, hash){
 			if (hash.hasOwnProperty(key)) {
 				if ( hash[key].includes(el[1]) && speaker != key ){
 					speaker = key;
+					// Capitalize the first word for each speaker
+					el[0] = capitalizeFirstLetter(el[0])
+					// Add the speaker label
 					el[0] = 'Speaker - ' + key + ': ' + el[0];
 				}
 			}
 		}
 	});
 	return array;
+}
+
+function removePeriods(text){
+	text = text.replace(/\./g, "");
+	return text;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function joinTranscriptStrings(array){
@@ -44,12 +56,13 @@ function joinTranscriptStrings(array){
 			transcript += el[0] + ' ';
 		}
 	});
+	transcript = removePeriods(transcript);
 	return transcript;
 }
 
 module.exports = function createTranscript(output){
-	const array = createTimestampsCollection(output);
-	const hash = createSpeakerLabelHash(output);
-	const collection = joinSpeakerLabelsWithTimestamps(array, hash);
+	let array = createTimestampsCollection(output);
+	let hash = createSpeakerLabelHash(output);
+	let collection = joinSpeakerLabelsWithTimestamps(array, hash);
 	return joinTranscriptStrings(collection);
 };
