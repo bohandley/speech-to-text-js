@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/bohandley/speech-to-text-js#readme",
   "dependencies": {
+    "brake": "^1.0.1",
+    "circular-json": "^0.5.1",
     "dotenv": "^4.0.0",
     "watson-developer-cloud": "^3.0.3"
   }

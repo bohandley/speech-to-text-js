@@ -11,7 +11,7 @@ const path = require('path');
  // Edited by BJO: 
 module.exports = {
 
-    filewalker: function (dir, done) {
+    filewalker: function(dir, done) {
         
         let results = [];
     
@@ -49,9 +49,11 @@ module.exports = {
                 });
             });
         });
-    };
+    },
 
-
+    createTextFile: function(file){
+        return file.substr(0, file.length - 3) + "txt";
+    }
 
 }
 

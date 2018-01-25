@@ -18,7 +18,17 @@
 !/tmp/.keep
 coverage
 
+# Ignore node modules
 /node_modules
 /yarn-error.log
 
+# Ignore files with environment variables
 .env
+
+# Ignore files in the audio and text directory
+audio/*
+text/*
+
+# exceptions to keep the directories
+!audio/.gitkeep
+!text/.gitkeep

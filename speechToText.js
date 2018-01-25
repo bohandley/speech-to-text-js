@@ -1,40 +1,47 @@
 require('dotenv').config();
-const fs = require('fs');
-const request = require('request');
-const CircularJSON = require('circular-json');
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
+const fs = require('fs');
+const CircularJSON = require('circular-json');
+const request = require('request');
 
+const speakerLabelsAlgorithm = require('../localModules/speakerLabelsAlgorithm');
 const dirLooper = require('../localModules/dirLooper');
 const isCircular = require('../localModules/isCircular');
-const speakerLabelsAlgorithm = require('../localModules/speakerLabelsAlgorithm');
 
 // Get the path of the audio directory that contains the ogg files
 let directory = 'audio'
-let dirPath =  __dirname.substr(0, __dirname.length - 15) + directory;
+let dirPath =  __dirname.substr(0, __dirname.length - 11) 
+// + directory;
+console.log(dirPath)
+      
 
 dirLooper.filewalker(dirPath, function(err, data){
     if(err){
         throw err;
     }
     
-    // Loop through all the audio files in the speech-to-text-js/audio directory
+    // ["c://some-existent-path/file.txt","c:/some-existent-path/subfolder"]
+    // data is an array of files
+    // loop through the files
+    // create writeStream txt files for each
+    console.log(data);
+    
     data.map(function(file){
-
-      // Prepping the audio file
-      // get the path to the audio file
+      let textFile = dirLooper.createTextFile(file);
+      console.log(textFile);
+      let textPath =  __dirname.substr(0, __dirname.length - 15) + "text/" + textFile;
+      console.log(textPath);
       let audioPath = dirPath + '/' + file;
-      // Create readableStream from file
-      let audioStream = fs.createReadStream(audioPath);
-
-      // Prepping Watson Speech to Text Service  
-      // Pass credentials to watson to instantiate a speechToText object
+    	console.log(audioPath);
+      // // Pass credentials to watson to instantiate a speechToText object
       const speechToText = new SpeechToTextV1 ({
         username: process.env.WATSON_USERNAME,
         password: process.env.WATSON_PASSWORD
       });
+
       // Pass options to the recognizeStream
-      // Notice, we have added the option, 'objectMode': true,  
-      // and by adding this, the recognizeStream returns JSON
+      // Notice, we have added the option, 'objectMode': true  
+      // By adding this, the recognizeStream returns JSON
       const params = {
         model: 'en-US_BroadbandModel',
         acoustic_customization_id: process.env.ACOUSTIC_CUSTOMIZATION_ID,
@@ -44,22 +51,18 @@ dirLooper.filewalker(dirPath, function(err, data){
         smart_formatting: true,
         speaker_labels: true,
         'objectMode': true,
-        continuous: true
-
-        // inactivity_timeout: -1
+        continuous: true,
+        inactivity_timeout: -1
       };
+
       // Create recognizeStream with params
       let recognizeStream = speechToText.createRecognizeStream(params);
-
-      // Prepping for the writableStream
-      // change the file type from audio to text
-      let textFile = dirLooper.createTextFile(file);
-      // change the path so that files are written to speech-to-text-js/text/ direcetory
-      let textPath =  __dirname.substr(0, __dirname.length - 15) + "text/" + textFile;
       // create a write stream from the textPath
       let writableStream = fs.createWriteStream(textPath);
 
-      // Let the transcription begin!
+      // Create readStream from file
+			let audioStream = fs.createReadStream(audioPath);
+
 			// Pipe the readStream to the recognizeStream
 			audioStream
 				.pipe(recognizeStream);
@@ -69,11 +72,7 @@ dirLooper.filewalker(dirPath, function(err, data){
 				// Display information about the data returned from the recognizeStream 
 				console.log('Chunk is a ' + typeof(chunk));
 				// Print the JSON to the console
-				if ( isCircular(chunk) ) {
-          console.log(CircularJSON.stringify(chunk));
-        } else {
-          console.log(JSON.stringify(chunk));
-        }
+				console.log(JSON.stringify(chunk));
 				// Pass JSON to function that returns a trascript with speaker labels in a string
 				let output = speakerLabelsAlgorithm(chunk);
 				// Display the transcript
@@ -82,11 +81,11 @@ dirLooper.filewalker(dirPath, function(err, data){
 				writableStream.write(output);
 			});
 
-      // Event handlers
 			recognizeStream.on('close', (event)=>{
 				onEvent('Close: ', event);
 			});
 			
+			// Listen for the 'error' event
 			recognizeStream.on('error', (event)=>{
 				onEvent('Error: ', event);
 			});
@@ -102,7 +101,6 @@ dirLooper.filewalker(dirPath, function(err, data){
 			audioStream.on('close', (event)=>{
 				onEvent('Audio Stream Close: ', event);
 			});
-
 			// Displays events on the console.
 			function onEvent(name, event) {
         if ( isCircular(event) ) {
