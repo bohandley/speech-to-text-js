@@ -10,7 +10,7 @@ const speech_to_text = new SpeechToTextV1 ({
 // to delete from the acoustic model
 const params = {
   'customization_id': process.env.ACOUSTIC_CUSTOMIZATION_ID,
-  'audio_name': 'IES46TimJastrab'
+  'audio_name': // Choose the audio name(You can get a name from listAudioForAcousticModel.js)
 };
 
 speech_to_text.deleteAudio(params, function(error, response) {

@@ -49,7 +49,9 @@ module.exports = {
                 });
             });
         });
-    };
+
+    },
+
 
     getPathOfDirectory: function(directory){
         return __dirname + directory;
