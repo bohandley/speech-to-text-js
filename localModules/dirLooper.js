@@ -49,11 +49,17 @@ module.exports = {
                 });
             });
         });
+
     },
+
+
+    getPathOfDirectory: function(directory){
+        return __dirname + directory;
+    };
 
     createTextFile: function(file){
         return file.substr(0, file.length - 3) + "txt";
-    }
+    };
 
 }
 
