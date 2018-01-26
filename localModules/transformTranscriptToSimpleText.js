@@ -8,17 +8,17 @@ const Transform = require('stream').Transform;
 //  -remove all punctuation
 //  -add space where punctuation was
 const transformTranscriptToSimpleText = new Transform({
-  transform(chunk, encoding, callback) {
-    chunk = chunk.toString()
-      .toLowerCase()
-      .replace(/\s*\[.*?\]\s*/g, ' ')
-      .replace('tim:', ' ')
-      .replace('joe:', ' ')
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()']/g,"")
-      .replace(/\s{2,}/g," ");
-    this.push(chunk);
-    callback();
-  }
+	transform(chunk, encoding, callback) {
+		chunk = chunk.toString()
+			.toLowerCase()
+			.replace(/\s*\[.*?\]\s*/g, ' ')
+			.replace('tim:', ' ')
+			.replace('joe:', ' ')
+			.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()']/g,'')
+			.replace(/\s{2,}/g,' ');
+		this.push(chunk);
+		callback();
+	}
 });
 
 module.exports = transformTranscriptToSimpleText;
