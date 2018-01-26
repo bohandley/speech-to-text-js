@@ -1,9 +1,11 @@
 # speech-to-text-js
 Transcribe audio files in Node.js using IBM Watson Speech to Text API
 
-This repository was created to transcribe audio files and add speaker labels. Currently, Watson's speech to text speaker labels function is in a beta mode. Speaker labels are only returned as a collection, and not returned attached to the transcribed text. This is a problem if one wants to transcribe audio with more than one speaker and have the text identify when a different speaker is speaking. 
+Following the steps below allows you to load .ogg files into the audio folder, run the program and have transcribed .txt files deposited into the text folder.
 
-To solve this problem, take a look in `speakerLabelsAlgorithm.js`. In this file, the JSON returned from Watson's recognizeStream is pulled apart and put back together as a string. This string is then written to the writeStream. Please email brendan.ohandley@gmail.com if you have any thoughts, advice or questions about this algorithm.  
+This repository was created to transcribe audio files, adding speaker labels and timestamps. Currently, Watson's speech to text speaker labels function is in a beta mode. Speaker labels are only returned as a collection, and not returned attached to the transcribed text. This is a problem if one wants to transcribe audio with more than one speaker and have the text identify when a different speaker is speaking. 
+
+To solve this problem, take a look in `localModules/speakerLabelsAlgorithm.js`. In this file, the JSON returned from Watson's recognizeStream is pulled apart and put back together as a string. This string is then written to the writeStream. Please email brendan.ohandley@gmail.com if you have any thoughts, advice or questions about this algorithm.  
 
 To run the code locally follow the instructions listed below.
 
@@ -12,10 +14,7 @@ To run the code locally follow the instructions listed below.
 2. Install Node Package Manager
 
 3. Install Modules
-    - watson-developer-cloud module
-    - `npm install watson-developer-cloud --save`
-    - dotenv module
-    - `npm install dotenv --save`
+    - `npm install`
 
 4. Get IBM Watson credentials
     - Get your credentials [here](https://console.bluemix.net/docs/services/watson/getting-started-credentials.html#service-credentials-for-watson-services)
@@ -33,34 +32,28 @@ To run the code locally follow the instructions listed below.
     ```
 
 
-8. Identify which file you would like to transcribe
+8. Place .ogg files in the 'audio' folder.
+```
+speech-to-text-js/audio
+```
 
-    ```
-    // Create readStream from file
-    const audioStream = fs.createReadStream(__dirname + '/<your-audio-file-here.ogg');
-    ```
+9. Run the program
+```
+node transcribeAudio/speechToText.js
+```
 
-9. Identify the name of the transcribed text file
+11. Transcribed .txt can be found in the text directory
+```
+speech-to-text-js/text
+```
 
-    ```
-    // Create a writeStream to transcribe text to a file
-    const writableStream = fs.createWriteStream('<your-file-to-write-to.txt>');
-    ```
+12. Look at your lovely transcribed file with speaker labels and timestamps.
+```
+    00:00:01 Speaker - 0: Hello
 
-10. Run the program
+    00:00:08 Speaker - 1: Hi there
 
-    ```
-    node speechTotext.js
-    ```
+    00:00:17 Speaker - 0: Glad you could make it 
 
-11. Check out your results
-
-    ```
-    Speaker - 0: hello
-
-    Speaker - 1: hi there
-
-    Speaker - 0: glad you could make it 
-
-    Speaker - 1: me too
-    ```
+    00:00:26 Speaker - 1: Me too
+```
