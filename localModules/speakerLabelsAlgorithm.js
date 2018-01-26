@@ -28,7 +28,7 @@ function joinSpeakerLabelsWithTimestamps(array, hash){
 				if ( hash[key].includes(el[1]) && speaker != key ){
 					speaker = key;
 					// Capitalize the first word for each speaker
-					el[0] = capitalizeFirstLetter(el[0])
+					el[0] = capitalizeFirstLetter(el[0]);
 					// Add the speaker label
 					var time = formatSeconds(el[1]);
 					el[0] = time + ' ' + 'Speaker - ' + key + ': ' + el[0];
@@ -36,7 +36,6 @@ function joinSpeakerLabelsWithTimestamps(array, hash){
 			}
 		}
 	});
-	console.log(array);
 	return array;
 }
 
@@ -48,17 +47,17 @@ function formatSeconds(seconds){
 }
 
 function removePeriods(text){
-	text = text.replace(/\./g, "");
+	text = text.replace(/\./g, '');
 	return text;
 }
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function joinTranscriptStrings(array){
 	let transcript = '';
-	let i = 1
+	let i = 1;
 	array.map(function(el){
 		if ( el[0].slice(0,20).includes('Speaker') ) {
 			transcript += '\n\n' + el[0] + ' ';
