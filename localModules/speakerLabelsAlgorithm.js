@@ -30,12 +30,21 @@ function joinSpeakerLabelsWithTimestamps(array, hash){
 					// Capitalize the first word for each speaker
 					el[0] = capitalizeFirstLetter(el[0])
 					// Add the speaker label
-					el[0] = 'Speaker - ' + key + ': ' + el[0];
+					var time = formatSeconds(el[1]);
+					el[0] = time + ' ' + 'Speaker - ' + key + ': ' + el[0];
 				}
 			}
 		}
 	});
+	console.log(array);
 	return array;
+}
+
+function formatSeconds(seconds){
+	var date = new Date(null);
+	date.setSeconds(seconds); // specify value for SECONDS here
+	var result = date.toISOString().substr(11, 8);
+	return result;
 }
 
 function removePeriods(text){
@@ -49,11 +58,17 @@ function capitalizeFirstLetter(string) {
 
 function joinTranscriptStrings(array){
 	let transcript = '';
+	let i = 1
 	array.map(function(el){
-		if ( el[0].slice(0,7) === 'Speaker') {
+		if ( el[0].slice(0,20).includes('Speaker') ) {
 			transcript += '\n\n' + el[0] + ' ';
+			i++;
+		} else if ( i % 20 === 0 ) {
+			transcript += '\n' + formatSeconds(el[1]) + ' ' + el[0] + ' ';
+			i++;
 		} else {
 			transcript += el[0] + ' ';
+			i++;
 		}
 	});
 	transcript = removePeriods(transcript);
