@@ -14,7 +14,9 @@ To run the code locally follow the instructions listed below.
 2. Install Node Package Manager
 
 3. Install Modules
-    - `npm install`
+```
+    npm install
+```
 
 4. Get IBM Watson credentials
     - Get your credentials [here](https://console.bluemix.net/docs/services/watson/getting-started-credentials.html#service-credentials-for-watson-services)
@@ -22,29 +24,31 @@ To run the code locally follow the instructions listed below.
 5. Create a .gitignore file and in the file write `.env`
 
 6. Create a dotenv file
-    - `touch .env`
+```
+    touch .env
+```
 
 7. Store your Watson credential information
 
-    ```
+ ```
     WATSON_USERNAME=<your-watson-username-as-a-string>
     WATSON_PASSWORD=<your-watson-password-as-a-string>
-    ```
+ ```
 
 
 8. Place .ogg files in the 'audio' folder.
 ```
-speech-to-text-js/audio
+    speech-to-text-js/audio
 ```
 
 9. Run the program
 ```
-node transcribeAudio/speechToText.js
+    node transcribeAudio/speechToText.js
 ```
 
 11. Transcribed .txt can be found in the text directory
 ```
-speech-to-text-js/text
+    speech-to-text-js/text
 ```
 
 12. Look at your lovely transcribed file with speaker labels and timestamps.
