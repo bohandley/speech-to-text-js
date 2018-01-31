@@ -67,9 +67,9 @@ dirLooper.filewalker(dirPath, function(err, data){
 		recognizeStream.on('data', (chunk)=>{
 			// Print the JSON to the console
 			if ( isCircular(chunk) ) {
-				console.log(CircularJSON.stringify(chunk));
+				console.log("Circular: " + CircularJSON.stringify(chunk));
 			} else {
-				console.log(JSON.stringify(chunk));
+				console.log("Recognize Stream Data: " + JSON.stringify(chunk));
 			}
 			// Pass JSON to function that returns a trascript with speaker labels in a string
 			let output = speakerLabelsAlgorithm(chunk);
